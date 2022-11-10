@@ -193,24 +193,71 @@ async function run() {
             res.send(result);
         });
 
-        app.patch('/orders/:id', verifyJWT, async (req, res) => {
-            const id = req.params.id;
-            const status = req.body.status
-            const query = { _id: ObjectId(id) }
-            const updatedDoc = {
-                $set: {
-                    status: status
-                }
-            }
-            const result = await reviewCollection.updateOne(query, updatedDoc);
-            res.send(result);
-        })
+        // app.put('/orders/:id', verifyJWT, async (req, res) => {
+        //     const id = req.params.id;
+        //     const status = req.body.status
+        //     const query = { _id: ObjectId(id) }
+        //     const updatedDoc = {
+        //         $set: {
+        //             status: status,
+        //             message: message
+        //         }
+        //     }
+        //     const result = await reviewCollection.updateOne(query, updatedDoc);
+        //     res.send(result);
+        // })
 
         app.delete('/orders/:id', verifyJWT, async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await reviewCollection.deleteOne(query);
             res.send(result);
+        })
+
+        // app.put('/orders/:id', verifyJWT, async (req, res) => {
+        //     const id = req.params.id;
+        //     const filter = { _id: ObjectId(id) };
+        //     const order = req.body;
+        //     const option = { upsert: true };
+        //     const updatedOrder = {
+        //         $set: {
+        //             message: order.message
+        //         }
+        //     }
+        //     const result = await reviewCollection.updateOne(filter, updatedUser, option);
+        //     res.send(result);
+        // })
+
+        // app.put('/orders/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const filter = { _id: ObjectId(id) };
+        //     const user = req.body;
+        //     const option = { upsert: true };
+        //     const Updateduser = {
+        //         $set: {
+        //             message: user.message
+        //         }
+        //     }
+        //     const result = await reviewCollection.updateOne(filter, Updateduser, option);
+        //     res.send(result);
+
+        // })
+
+        app.put('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const user = req.body;
+            const option = { upsert: true };
+            const Updateduser = {
+                $set: {
+                    name: user.name,
+                    email: user.email,
+                    message: user.message
+                }
+            }
+            const result = await reviewCollection.updateOne(filter, Updateduser, option);
+            res.send(result);
+
         })
 
 
